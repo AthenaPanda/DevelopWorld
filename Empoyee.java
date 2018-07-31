@@ -5,7 +5,7 @@ import java.util.*;
 /*
  * class Employee sample
  */
-public class Employee 
+public class Employee implements Comparable<Employee>
 {
 	private static int nextId ;
 	
@@ -64,5 +64,16 @@ public class Employee
 	public static int getNextId()
 	{
 		return nextId;
+	}
+	
+	/*
+	 * Compares employees by salary
+	 * @param other other Employee Object
+	 * @return a negative value if this employee has a lower salary than 
+	 * other object, 0 if the salaries are the same, a positive value oyherwise
+	 */
+	public int compareTo(Employee other)
+	{
+		return Double.compare(salary, other.salary);
 	}
 }
