@@ -152,6 +152,9 @@ public class StartTest {
 		System.out.println("The next id=" + n);
 	}
 	
+	/*
+	 * use reflection to print all features of a class
+	 */
 	public static void RefleationTest(String[] args)
 	{
 		String name;
@@ -187,6 +190,9 @@ public class StartTest {
 		//System.exit(0);
 	}
 	
+	/*
+	 * print all constructors of a class
+	 */
 	public static  void printConstructors(Class cl)
 	{
 		Constructor[] constructors = cl.getDeclaredConstructors();
@@ -208,6 +214,9 @@ public class StartTest {
 		}
 	}
 	
+	/*
+	 * print all methods of a class
+	 */
 	public static void printMethods(Class cl)
 	{
 		Method[] methods = cl.getDeclaredMethods();
@@ -231,6 +240,9 @@ public class StartTest {
 		}
 	}
 	
+	/*
+	 * print all fields of a class
+	 */
 	public static void printFields(Class cl)
 	{
 		Field[] fields =cl.getDeclaredFields();
