@@ -142,6 +142,7 @@ public class StartTest {
 		for(Employee e: staff)
 		  e.raiseSalary(5);
 		
+		Arrays.sort(staff);
 		for(Employee e: staff) 
 		{
 			e.setId();
