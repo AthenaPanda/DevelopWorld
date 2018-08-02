@@ -10,14 +10,23 @@ import java.text.DateFormatSymbols;
 public class StartTest {
 
 	public static void main(String[] args) {		
-		showString();
-		//arraySort();
+		/*showString();
+		arraySort();
 		CalendarTest();
 		employeeCode();
-		
-		analyzerTest();	
+		analyzerTest();
 		RefleationTest(args);
-		copyOfTest();
+		copyOfTest();*/
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			public void run() {
+				JFrame frame = new MainFrame();
+				frame.setTitle("Hello world");
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setVisible(true);
+			}
+		});
 	}
 
 	public static void showString()
