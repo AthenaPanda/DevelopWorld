@@ -13,30 +13,33 @@ public class MainFrame extends JFrame
 	public MainFrame()
 	{
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		JButton yellowButton = new JButton("Yellow");
+		
+		/*JButton yellowButton = new JButton("Yellow");
 		JButton blueButton = new JButton("Blue");
-		JButton redButton = new JButton("Red");
+		JButton redButton = new JButton("Red");*/
 		
 		mainPanel = new JPanel();
 		
-		mainPanel.add(yellowButton);
+		/*mainPanel.add(yellowButton);
 		mainPanel.add(blueButton);
-		mainPanel.add(redButton);
-		
+		mainPanel.add(redButton);*/
+		makeButton("yellow", Color.YELLOW);
+		makeButton("blue", Color.BLUE);
+		makeButton("red", Color.RED);
 		add(mainPanel);
 		
-		ColorAction yellowAction  = new ColorAction(Color.YELLOW);
+		/*ColorAction yellowAction  = new ColorAction(Color.YELLOW);
 		ColorAction blueAction = new ColorAction(Color.BLUE);
 		ColorAction redAction = new ColorAction(Color.RED);
 		
 		yellowButton.addActionListener(yellowAction);
 		blueButton.addActionListener(blueAction);
-		redButton.addActionListener(redAction);
+		redButton.addActionListener(redAction);*/
 		mainPanel.add(new MainComponent());	
 		pack();
 	}
 	
-	private class ColorAction implements ActionListener
+	/*private class ColorAction implements ActionListener
 	{
 		private Color backgroundColor;
 		
@@ -49,6 +52,18 @@ public class MainFrame extends JFrame
 		{
 			mainPanel.setBackground(backgroundColor);
 		}
+	}*/
+	public void makeButton(String name, final Color backgroundColor)
+	{
+		JButton button  = new JButton(name);
+		mainPanel.add(button);
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.setBackground(backgroundColor);				
+			}
+		});
 	}
 }
 
