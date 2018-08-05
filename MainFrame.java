@@ -6,10 +6,49 @@ import java.awt.font.*;
 
 public class MainFrame extends JFrame
 {
+	private static final int DEFAULT_WIDTH = 600;
+	private static final int DEFAULT_HEIGHT = 600;
+	
+	private JPanel mainPanel;
 	public MainFrame()
 	{
-		add(new MainComponent());
+		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		JButton yellowButton = new JButton("Yellow");
+		JButton blueButton = new JButton("Blue");
+		JButton redButton = new JButton("Red");
+		
+		mainPanel = new JPanel();
+		
+		mainPanel.add(yellowButton);
+		mainPanel.add(blueButton);
+		mainPanel.add(redButton);
+		
+		add(mainPanel);
+		
+		ColorAction yellowAction  = new ColorAction(Color.YELLOW);
+		ColorAction blueAction = new ColorAction(Color.BLUE);
+		ColorAction redAction = new ColorAction(Color.RED);
+		
+		yellowButton.addActionListener(yellowAction);
+		blueButton.addActionListener(blueAction);
+		redButton.addActionListener(redAction);
+		mainPanel.add(new MainComponent());	
 		pack();
+	}
+	
+	private class ColorAction implements ActionListener
+	{
+		private Color backgroundColor;
+		
+		public ColorAction(Color c)
+		{
+			backgroundColor = c;
+		}
+		
+		public void actionPerformed(ActionEvent event)
+		{
+			mainPanel.setBackground(backgroundColor);
+		}
 	}
 }
 
@@ -18,17 +57,23 @@ class MainComponent extends JComponent
 	public static final int MESSAGE_X = 75;
 	public static final int MESSAGE_Y = 100;
 	
-	private static final int DEFFAULT_WIDTH = 800;
-	private static final int DEFAULT_HEIGHT = 800;
+	private static final int DEFFAULT_WIDTH = 300;
+	private static final int DEFAULT_HEIGHT = 300;
 	
+	private Image image;
+	
+	public MainComponent()
+	{
+		image = new ImageIcon("./flower.gif").getImage();
+	}
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D)g;
 		
-		double leftX = 300;
-		double topY = 100;
-		double width = 200;
-		double height = 150;
+		double leftX = 100;
+		double topY = 50;
+		double width = 100;
+		double height = 100;
 		
 		Rectangle2D rect = new Rectangle2D.Double(leftX, topY, width, height);
 		g2.draw(rect);
@@ -67,6 +112,11 @@ class MainComponent extends JComponent
 		g2.draw(new Line2D.Double(x, baseY, x + bounds.getWidth(), baseY));
 		Rectangle2D rect2d = new Rectangle2D.Double(x, y, bounds.getWidth(), bounds.getHeight());
 		g2.draw(rect2d);
+		
+		if(image == null) return;
+		int imageWidth = image.getWidth(this);
+		int imageHeight = image.getHeight(this);
+		g2.drawImage(image, 100, 100, imageWidth, imageHeight, null);
 	}
 	
 	public Dimension getPreferredSize() { return new Dimension(DEFFAULT_WIDTH, DEFAULT_HEIGHT); }
