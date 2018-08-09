@@ -10,8 +10,11 @@ public class MainFrame extends JFrame
 {
 	private static final int DEFAULT_WIDTH = 600;
 	private static final int DEFAULT_HEIGHT = 600;
+	private static final int TEXTAREA_ROWS = 8;
+	private static final int TEXTAREA_COLUMNS = 20;
 	
 	private JPanel mainPanel;
+	private JPanel secondPanel;
 	public MainFrame()
 	{
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -21,14 +24,23 @@ public class MainFrame extends JFrame
 		JButton redButton = new JButton("Red");*/
 		
 		mainPanel = new JPanel();
-		
+		secondPanel = new JPanel();
 		/*mainPanel.add(yellowButton);
 		mainPanel.add(blueButton);
 		mainPanel.add(redButton);*/
+		mainPanel.setLayout(new GridLayout(2, 2));
+		final JTextField textField = new JTextField();
+		final JPasswordField passwordField = new JPasswordField();
+		
+		mainPanel.add(new JLabel("User name: ", SwingConstants.RIGHT));
+		mainPanel.add(textField);
+		mainPanel.add(new JLabel("Password: ", SwingConstants.RIGHT));
+		mainPanel.add(passwordField);
+		add(mainPanel, BorderLayout.NORTH);
+		
 		makeButton("yellow", Color.YELLOW);
 		makeButton("blue", Color.BLUE);
 		makeButton("red", Color.RED);
-		add(mainPanel);
 		
 		/*ColorAction yellowAction  = new ColorAction(Color.YELLOW);
 		ColorAction blueAction = new ColorAction(Color.BLUE);
@@ -37,7 +49,28 @@ public class MainFrame extends JFrame
 		yellowButton.addActionListener(yellowAction);
 		blueButton.addActionListener(blueAction);
 		redButton.addActionListener(redAction);*/
-		mainPanel.add(new MainComponent());	
+		add(new MainComponent(), BorderLayout.CENTER);
+		
+		add(secondPanel, BorderLayout.SOUTH);
+		
+		JPanel eastPanel = new JPanel();
+		
+		final JTextArea textArea= new JTextArea(TEXTAREA_ROWS, TEXTAREA_COLUMNS);
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		eastPanel.add(scrollPane);
+		
+		JButton insertButton = new JButton("Insert");
+		eastPanel.add(insertButton);
+		insertButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea.append("User name: " + textField.getText() + "  password: " + new String(passwordField.getPassword()) + "\n");
+				
+			}
+		});
+		add(eastPanel, BorderLayout.EAST);
+		
 		pack();
 	}
 	
@@ -58,7 +91,7 @@ public class MainFrame extends JFrame
 	public void makeButton(String name, final Color backgroundColor)
 	{
 		JButton button  = new JButton(name);
-		mainPanel.add(button);
+		secondPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			
 			@Override
@@ -85,7 +118,7 @@ class MainComponent extends JComponent
 	
 	public MainComponent()
 	{
-		image = new ImageIcon("./flower.gif").getImage();
+		image = new ImageIcon("dog.jpg").getImage();
 		
 		squares = new ArrayList<>();
 		current = null;
@@ -133,11 +166,11 @@ class MainComponent extends JComponent
 		double ascent = -bounds.getY();
 		double baseY = y + ascent;
 		
-		g2.drawString(message, (int)x, (int)baseY);
+		g2.drawString(message, (int)x, (int)baseY - 250);
 		g2.setPaint(Color.LIGHT_GRAY);
 		
-		g2.draw(new Line2D.Double(x, baseY, x + bounds.getWidth(), baseY));
-		Rectangle2D rect2d = new Rectangle2D.Double(x, y, bounds.getWidth(), bounds.getHeight());
+		g2.draw(new Line2D.Double(x, baseY - 250, x + bounds.getWidth(), baseY - 250));
+		Rectangle2D rect2d = new Rectangle2D.Double(x, y - 250, bounds.getWidth(), bounds.getHeight());
 		g2.draw(rect2d);
 		
 		for(Rectangle2D r: squares)
@@ -146,7 +179,7 @@ class MainComponent extends JComponent
 		if(image == null) return;
 		int imageWidth = image.getWidth(this);
 		int imageHeight = image.getHeight(this);
-		g2.drawImage(image, 100, 100, imageWidth, imageHeight, null);
+		g2.drawImage(image, 250, 150, imageWidth, imageHeight, null);
 	}
 	
 	/*
