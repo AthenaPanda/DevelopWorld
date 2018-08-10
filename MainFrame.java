@@ -12,9 +12,14 @@ public class MainFrame extends JFrame
 	private static final int DEFAULT_HEIGHT = 600;
 	private static final int TEXTAREA_ROWS = 8;
 	private static final int TEXTAREA_COLUMNS = 20;
+	private static final int DEFAULT_SIZE = 12;
 	
 	private JPanel mainPanel;
 	private JPanel secondPanel;
+	private JPanel westPanel;
+	private ButtonGroup group;
+	private JLabel label;
+	
 	public MainFrame()
 	{
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -71,6 +76,21 @@ public class MainFrame extends JFrame
 		});
 		add(eastPanel, BorderLayout.EAST);
 		
+		westPanel = new JPanel();
+		westPanel.setSize(new Dimension(100, 100));
+		group = new ButtonGroup();
+		label = new JLabel("Lazy makes good success");
+		label.setFont(new Font("Serif", Font.PLAIN, DEFAULT_SIZE));
+		westPanel.setLayout(new GridLayout(5, 1));
+		westPanel.add(label);
+		
+		addRadioButton("Small", 8);
+		addRadioButton("Medium", 12);
+		addRadioButton("Large", 16);
+		addRadioButton("Extra large", 20);
+		
+		add(westPanel, BorderLayout.WEST);
+		
 		pack();
 	}
 	
@@ -99,6 +119,22 @@ public class MainFrame extends JFrame
 				mainPanel.setBackground(backgroundColor);				
 			}
 		});
+	}
+	
+	public void addRadioButton(String name, final int size)
+	{
+		boolean selected = size == DEFAULT_SIZE;
+		JRadioButton button = new JRadioButton(name, selected);
+		group.add(button);
+		westPanel.add(button);
+		
+		ActionListener listener = new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				label.setFont(new Font("Serif", Font.PLAIN, size));
+			}
+		};
+		button.addActionListener(listener);
 	}
 }
 
