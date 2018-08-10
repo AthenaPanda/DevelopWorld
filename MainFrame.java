@@ -19,6 +19,7 @@ public class MainFrame extends JFrame
 	private JPanel westPanel;
 	private ButtonGroup group;
 	private JLabel label;
+	JComboBox<String> faceCombo;
 	
 	public MainFrame()
 	{
@@ -89,6 +90,22 @@ public class MainFrame extends JFrame
 		addRadioButton("Large", 16);
 		addRadioButton("Extra large", 20);
 		
+		faceCombo = new JComboBox<>();
+		faceCombo.addItem("Serif");
+		faceCombo.addItem("SansSerif");
+		faceCombo.addItem("Monospaced");
+		faceCombo.addItem("Dialog");
+		faceCombo.addItem("DialogInput");
+		
+		faceCombo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				label.setFont(new Font(faceCombo.getItemAt(faceCombo.getSelectedIndex()), Font.PLAIN, DEFAULT_SIZE));
+				
+			}
+		});
+		westPanel.add(faceCombo);
 		add(westPanel, BorderLayout.WEST);
 		
 		pack();
