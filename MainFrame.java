@@ -1,5 +1,6 @@
 package frontframe;
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.font.*;
@@ -21,9 +22,96 @@ public class MainFrame extends JFrame
 	private JLabel label;
 	JComboBox<String> faceCombo;
 	
+	private Action saveAction;
+	private Action saveAsAction;
+	private JCheckBoxMenuItem readOnlyItem;
+	private JPopupMenu popMenu;
+	
 	public MainFrame()
 	{
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		
+		//menu bar and menu item
+		JMenu fileMenu = new JMenu("File");
+		fileMenu.add(new TestAction("New"));
+		
+		JMenuItem openItem = fileMenu.add(new TestAction("Open"));
+		openItem.setAccelerator(KeyStroke.getKeyStroke("ctrl 0"));
+		
+		fileMenu.addSeparator();
+		saveAction = new TestAction("save");
+		JMenuItem saveItem = fileMenu.add(saveAction);
+		saveItem.setAccelerator(KeyStroke.getKeyStroke("ctrl S"));
+		
+		saveAsAction = new TestAction("Save As");
+		fileMenu.add(saveAsAction);
+		fileMenu.addSeparator();
+		
+		fileMenu.add(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				
+				System.exit(0);
+			}
+		});
+		
+		readOnlyItem = new JCheckBoxMenuItem("Read-only");
+		readOnlyItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				boolean saveOk = !readOnlyItem.isSelected();
+				saveAction.setEnabled(saveOk);
+				saveAsAction.setEnabled(saveOk);
+			}
+		});
+		
+		ButtonGroup groupItem = new ButtonGroup();
+		
+		JRadioButtonMenuItem insertItem = new JRadioButtonMenuItem("Insert");
+		insertItem.setSelected(true);
+		JRadioButtonMenuItem overtypeItem = new JRadioButtonMenuItem("Overtype");
+		
+		groupItem.add(insertItem);
+		groupItem.add(overtypeItem);
+		
+		Action cutAction = new TestAction("Cut");
+		Action copyAction = new TestAction("Copy");
+		Action pasteAction = new TestAction("Paste");
+		
+		JMenu editMenu = new JMenu("Edit");
+		editMenu.add(cutAction);
+		editMenu.add(copyAction);
+		editMenu.add(pasteAction);
+		
+		JMenu optionMenu = new JMenu("Option");
+		
+		optionMenu.add(readOnlyItem);
+		optionMenu.addSeparator();
+		optionMenu.add(insertItem);
+		optionMenu.add(overtypeItem);
+		
+		editMenu.addSeparator();
+		editMenu.add(optionMenu);
+		
+		JMenu helpMenu = new JMenu("help");
+		helpMenu.setMnemonic('H');
+		
+		JMenuItem indexItem = new JMenuItem("Index");
+		indexItem.setMnemonic('I');
+		helpMenu.add(indexItem);
+		
+		Action aboutAction = new TestAction("About");
+		aboutAction.putValue(Action.MNEMONIC_KEY, new Integer('A'));
+		helpMenu.add(aboutAction);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		menuBar.add(fileMenu);
+		menuBar.add(editMenu);
+		menuBar.add(helpMenu);
 		
 		/*JButton yellowButton = new JButton("Yellow");
 		JButton blueButton = new JButton("Blue");
@@ -111,6 +199,21 @@ public class MainFrame extends JFrame
 		pack();
 	}
 	
+	/*
+	 * A sample action that prints the action name to System.out
+	 */
+	class TestAction extends AbstractAction
+	{
+		public TestAction(String name)
+		{
+			super(name);
+		}
+		
+		public void actionPerformed(ActionEvent event)
+		{
+			System.out.println(getValue(Action.NAME) + " seleted.");
+		}
+	}
 	/*private class ColorAction implements ActionListener
 	{
 		private Color backgroundColor;
